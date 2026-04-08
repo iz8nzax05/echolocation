@@ -1,6 +1,6 @@
 # Echolocation
 
-Concept demo — you navigate a dark map blind. Click to ping, and sound waves travel out, bounce off walls, and reveal them as they return. Closer walls light up first.
+Concept demo. The screen is black. Click to ping — after a short delay, dots appear on nearby walls, then further ones, timed by distance. They fade after 2 seconds.
 
 No enemies, no goal. Just the mechanic.
 
@@ -8,13 +8,13 @@ No enemies, no goal. Just the mechanic.
 
 ## How it works
 
-**Ping** — casts 240 rays (every 1.5°) from the player. Each ray finds the closest wall using parametric line-segment intersection math. Every hit schedules a reveal after `distance / SOUND_SPEED` seconds — so the reveal ripples outward in time, not just space.
+**Ping** — casts 240 rays from the player (every 1.5°). Each ray finds the nearest wall using parametric line-segment intersection. Each hit is scheduled to reveal after `distance / SOUND_SPEED` seconds — so closer walls show up first.
 
-**Revelation** — when a return wave arrives, it creates a 20px wall segment centered on the hit point. Brightness scales with distance: closer hits are brighter. Each segment fades over 2 seconds.
+**What you see** — small dots on the wall at each hit point. Brightness depends on distance (closer = brighter). Faint lines connect the player to each dot. If you move behind a wall, the lines to dots on the other side disappear — a second ray-cast per dot checks line of sight every frame.
 
-**Sonar lines** — thin lines are drawn from your current position to each revealed hit point. If you move behind a wall, the lines to the other side are clipped and disappear — handled by running a secondary ray-cast from the player to each hit point every frame.
+**Fading** — dots fade over 2 seconds. Ping again to refresh them.
 
-**Auto-ping** — press `T` to toggle continuous pinging at 20 pings/second.
+**Auto-ping** — press `T` to ping 20 times per second continuously.
 
 ---
 
